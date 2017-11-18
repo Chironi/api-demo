@@ -1,6 +1,7 @@
 package com.wczaja.apidemo.controllers;
 
 import com.wczaja.apidemo.resources.UniqueWord;
+import com.wczaja.apidemo.services.DeadlockService;
 import com.wczaja.apidemo.services.FibonacciService;
 import com.wczaja.apidemo.services.UniqueWordService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,9 @@ public class DemoController {
     @Autowired
     FibonacciService fibonacciService;
 
+    @Autowired
+    DeadlockService deadlockService;
+
     /**
      *
      * @return
@@ -47,5 +51,11 @@ public class DemoController {
     @RequestMapping(path = "/fibonacci-numbers", method= POST)
     public List<BigInteger> findFibonacciNumbers(@RequestParam(value="N") Integer n) {
         return fibonacciService.getFibonacciNumbers(n);
+    }
+
+
+    @RequestMapping(path = "/deadlock-threads", method= POST)
+    public void deadlockThreads(@RequestParam(value="timeout") Integer timeout) {
+        deadlockService.lockThreads(timeout);
     }
 }

@@ -28,7 +28,7 @@ public class UniqueWordService {
         for (String word : words) {
             if (uniqueWordMap.containsKey(word)) {
                 // If uniqueWordMap already contains word, just increment the count
-                uniqueWordMap.put(word, uniqueWordMap.get(word)+1);
+                uniqueWordMap.put(word, uniqueWordMap.get(word) + 1);
             } else {
                 // Else it's a new word, initialize count as 1
                 uniqueWordMap.put(word, 1);
