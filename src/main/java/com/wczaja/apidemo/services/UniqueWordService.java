@@ -1,6 +1,6 @@
 package com.wczaja.apidemo.services;
 
-import com.wczaja.apidemo.resources.UniqueWord;
+import com.wczaja.apidemo.resources.UniqueWordResource;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -19,7 +19,7 @@ public class UniqueWordService {
      * @param paragraph
      * @return
      */
-    public List<UniqueWord> getUniqueWordsFromParagraph(String paragraph) {
+    public List<UniqueWordResource> getUniqueWordsFromParagraph(String paragraph) {
         Map<String, Integer> uniqueWordMap = new HashMap<>();
 
         // Splits paragraph into String Array using regex to split on all non-letter chars
@@ -40,15 +40,15 @@ public class UniqueWordService {
 
     /**
      * Snazzy Java 8 Lambda which sorts the uniqueWordMap by the keys, and maps to a List
-     * of UniqueWord objects
+     * of UniqueWordResource objects
      *
      * @param uniqueWordMap Map of unique words as keys, and their counts as the values
-     * @return List of UniqueWord objects
+     * @return List of UniqueWordResource objects
      */
-    private List<UniqueWord> getUniqueWordsFromMap(Map<String, Integer> uniqueWordMap) {
+    private List<UniqueWordResource> getUniqueWordsFromMap(Map<String, Integer> uniqueWordMap) {
         return uniqueWordMap.entrySet().stream()
                 .sorted(Map.Entry.comparingByKey())
-                .map(item -> new UniqueWord(item.getKey(), item.getValue()))
+                .map(item -> new UniqueWordResource(item.getKey(), item.getValue()))
                 .collect(Collectors.toList());
     }
 }

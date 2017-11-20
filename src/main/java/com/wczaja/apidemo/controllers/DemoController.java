@@ -1,6 +1,6 @@
 package com.wczaja.apidemo.controllers;
 
-import com.wczaja.apidemo.resources.UniqueWord;
+import com.wczaja.apidemo.resources.UniqueWordResource;
 import com.wczaja.apidemo.services.DeadlockService;
 import com.wczaja.apidemo.services.FibonacciService;
 import com.wczaja.apidemo.services.UniqueWordService;
@@ -44,16 +44,24 @@ public class DemoController {
      * @return
      */
     @RequestMapping(path = "/unique-words", method= POST)
-    public List<UniqueWord> findUniqueWordsAndCounts(@RequestParam(value="paragraph") String paragraph) {
+    public List<UniqueWordResource> findUniqueWordsAndCounts(@RequestParam(value="paragraph") String paragraph) {
         return uniqueWordService.getUniqueWordsFromParagraph(paragraph);
     }
 
+    /**
+     *
+     * @param n
+     * @return
+     */
     @RequestMapping(path = "/fibonacci-numbers", method= POST)
     public List<BigInteger> findFibonacciNumbers(@RequestParam(value="N") Integer n) {
         return fibonacciService.getFibonacciNumbers(n);
     }
 
-
+    /**
+     *
+     * @param timeout
+     */
     @RequestMapping(path = "/deadlock-threads", method= POST)
     public void deadlockThreads(@RequestParam(value="timeout") Integer timeout) {
         deadlockService.lockThreads(timeout);
