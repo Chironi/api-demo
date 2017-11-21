@@ -14,6 +14,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.util.List;
 import java.util.Optional;
 
+import static org.springframework.web.bind.annotation.RequestMethod.*;
+
 @RestController
 @RequestMapping(value = "/api/hub")
 public class HubController {
@@ -21,7 +23,7 @@ public class HubController {
     @Autowired
     HubService hubService;
 
-    @RequestMapping(value = "{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "{id}", method = GET)
     public ResponseEntity getHub(@PathVariable Long id) {
         Optional<HubEntity> hubEntity = hubService.getHubById(id);
         if (hubEntity.isPresent()) {
@@ -33,7 +35,7 @@ public class HubController {
         }
     }
 
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(method = GET)
     public ResponseEntity<List<HubResource>> getHubs() {
         HubResourceAssembler hubResourceAssembler = new HubResourceAssembler();
         List hubEntities = hubService.getAllHubs();
@@ -41,7 +43,7 @@ public class HubController {
         return new ResponseEntity<>(hubResources, HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(method = POST)
     public ResponseEntity createHub(@RequestBody HubResource hubResource, UriComponentsBuilder ucBuilder) {
         HubEntity hubEntity = hubService.saveHub(hubResource);
         HttpHeaders headers = new HttpHeaders();
@@ -49,7 +51,7 @@ public class HubController {
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = "{id}", method = RequestMethod.PUT)
+    @RequestMapping(value = "{id}", method = PUT)
     public ResponseEntity updateHub(@PathVariable Long id, @RequestBody HubResource hubResource) {
         Optional<HubEntity> hubEntity = hubService.updateHub(id, hubResource);
         if (hubEntity.isPresent()) {
@@ -61,7 +63,7 @@ public class HubController {
         }
     }
 
-    @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "{id}", method = DELETE)
     public ResponseEntity deleteHub(@PathVariable Long id) {
         Optional<HubEntity> hubEntity = hubService.getHubById(id);
         if (hubEntity.isPresent()) {

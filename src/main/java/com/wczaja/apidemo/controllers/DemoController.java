@@ -2,16 +2,22 @@ package com.wczaja.apidemo.controllers;
 
 import com.wczaja.apidemo.resources.UniqueWordResource;
 import com.wczaja.apidemo.services.DeadlockService;
+import com.wczaja.apidemo.services.ExternalPostsService;
 import com.wczaja.apidemo.services.FibonacciService;
 import com.wczaja.apidemo.services.UniqueWordService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import java.math.BigInteger;
 import java.util.List;
 
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 /**
@@ -29,11 +35,14 @@ public class DemoController {
     @Autowired
     DeadlockService deadlockService;
 
+    @Autowired
+    ExternalPostsService externalPostsService;
+
     /**
      *
      * @return
      */
-    @RequestMapping("/hello-world")
+    @RequestMapping(path = "/hello-world", method = GET)
     public String hello() {
         return "Hello World!";
     }
@@ -43,9 +52,9 @@ public class DemoController {
      * @param paragraph
      * @return
      */
-    @RequestMapping(path = "/unique-words", method= POST)
-    public List<UniqueWordResource> findUniqueWordsAndCounts(@RequestParam(value="paragraph") String paragraph) {
-        return uniqueWordService.getUniqueWordsFromParagraph(paragraph);
+    @RequestMapping(path = "/unique-words", method = POST)
+    public ResponseEntity<List<UniqueWordResource>> findUniqueWordsAndCounts(@RequestParam(value="paragraph") String paragraph) {
+        return new ResponseEntity<>(uniqueWordService.getUniqueWordsFromParagraph(paragraph), HttpStatus.OK);
     }
 
     /**
@@ -53,7 +62,7 @@ public class DemoController {
      * @param n
      * @return
      */
-    @RequestMapping(path = "/fibonacci-numbers", method= POST)
+    @RequestMapping(path = "/fibonacci-numbers", method = POST)
     public List<BigInteger> findFibonacciNumbers(@RequestParam(value="N") Integer n) {
         return fibonacciService.getFibonacciNumbers(n);
     }
@@ -62,8 +71,19 @@ public class DemoController {
      *
      * @param timeout
      */
-    @RequestMapping(path = "/deadlock-threads", method= POST)
+    @RequestMapping(path = "/deadlock-threads", method = POST)
     public void deadlockThreads(@RequestParam(value="timeout") Integer timeout) {
         deadlockService.lockThreads(timeout);
     }
+
+    @RequestMapping(path = "/external-posts-service", method = GET)
+    public ResponseEntity<String> getPostsFromExternalService() {
+        return externalPostsService.getPosts();
+    }
+
+    @RequestMapping(path = "/external-posts-service/{id}", method = GET)
+    public ResponseEntity<String> getPostFromExternalService(@PathVariable String id) {
+        return externalPostsService.getPostById(id);
+    }
+
 }

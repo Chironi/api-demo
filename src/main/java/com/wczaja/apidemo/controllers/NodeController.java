@@ -14,6 +14,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.util.List;
 import java.util.Optional;
 
+import static org.springframework.web.bind.annotation.RequestMethod.*;
+
 @RestController
 @RequestMapping(value = "/api/node")
 public class NodeController {
@@ -21,7 +23,7 @@ public class NodeController {
     @Autowired
     NodeService nodeService;
 
-    @RequestMapping(value = "{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "{id}", method = GET)
     public ResponseEntity getNode(@PathVariable Long id) {
         Optional<NodeEntity> nodeEntity = nodeService.getNodeById(id);
         if (nodeEntity.isPresent()) {
@@ -33,7 +35,7 @@ public class NodeController {
         }
     }
 
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(method = GET)
     public ResponseEntity<List<NodeResource>> getNodes() {
         NodeResourceAssembler nodeResourceAssembler = new NodeResourceAssembler();
         List nodeEntities = nodeService.getAllNodes();
@@ -41,7 +43,7 @@ public class NodeController {
         return new ResponseEntity<>(nodeResources, HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(method = POST)
     public ResponseEntity createNode(@RequestBody NodeResource nodeResource, UriComponentsBuilder ucBuilder) {
         NodeEntity nodeEntity = nodeService.saveNode(nodeResource);
         HttpHeaders headers = new HttpHeaders();
@@ -49,7 +51,7 @@ public class NodeController {
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = "{id}", method = RequestMethod.PUT)
+    @RequestMapping(value = "{id}", method = PUT)
     public ResponseEntity updateNode(@PathVariable Long id, @RequestBody NodeResource nodeResource) {
         Optional<NodeEntity> nodeEntity = nodeService.updateNode(id, nodeResource);
         if (nodeEntity.isPresent()) {
@@ -61,7 +63,7 @@ public class NodeController {
         }
     }
 
-    @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "{id}", method = DELETE)
     public ResponseEntity deleteNode(@PathVariable Long id) {
         Optional<NodeEntity> nodeEntity = nodeService.getNodeById(id);
         if (nodeEntity.isPresent()) {
