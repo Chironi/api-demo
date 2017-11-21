@@ -1,5 +1,7 @@
 package com.wczaja.apidemo.services;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 /**
@@ -7,6 +9,8 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class DeadlockService {
+
+    private static final Logger log = LoggerFactory.getLogger(DeadlockService.class);
 
     /**
      *
@@ -37,15 +41,16 @@ public class DeadlockService {
      */
     private void lockResources(Object resource1, Object resource2, String threadName, int timeout) {
         synchronized (resource1) {
-            System.out.println(resource1 + " is locked by " + threadName);
+            log.info(resource1 + " is locked by " + threadName);
+
             try {
                 Thread.sleep(timeout);
             } catch (InterruptedException e) {
-                System.out.println(e.getMessage());
+                log.error("An error occurred while sleeping the thread", e);
             }
         }
         synchronized (resource2) {
-            System.out.println(resource2 + " is locked by " + threadName);
+            log.info(resource2 + " is locked by " + threadName);
         }
     }
 }

@@ -4,6 +4,8 @@ import com.wczaja.apidemo.entities.HubEntity;
 import com.wczaja.apidemo.entities.NodeEntity;
 import com.wczaja.apidemo.repositories.NodeRepository;
 import com.wczaja.apidemo.resources.NodeResource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +20,8 @@ public class NodeService {
 
     @Autowired
     NodeRepository nodeRepository;
+
+    private static final Logger log = LoggerFactory.getLogger(NodeService.class);
 
     public List<NodeEntity> getAllNodes() {
         return (List<NodeEntity>) nodeRepository.findAll();
@@ -58,13 +62,16 @@ public class NodeService {
             nodeEntity.setLocation(nodeResource.getLocation());
             nodeEntity.setProductId(nodeResource.getProductId());
 
+            log.info("Updating Node with id " + id);
             return Optional.of(nodeRepository.save(nodeEntity));
         } else {
+            log.info("NodeService#updateNode could not find Node with id " + id);
             return Optional.empty();
         }
     }
 
     public void deleteNode(NodeEntity nodeEntity) {
+        log.info("Deleting Node with id " + nodeEntity.getId());
         nodeRepository.delete(nodeEntity);
     }
 }
