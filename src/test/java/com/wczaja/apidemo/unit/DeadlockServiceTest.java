@@ -23,7 +23,7 @@ public class DeadlockServiceTest {
 
     @Test
     public void testGetDeadlockedThreadIds_DeadlockedDetected() throws InterruptedException {
-        deadlockService.lockThreads(100);
+        deadlockService.deadlockThreads(100);
         Thread.sleep(1000);
         assertThat(deadlockService.getDeadlockedThreadIds()).isNotEmpty();
     }

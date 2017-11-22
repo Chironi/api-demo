@@ -22,7 +22,7 @@ public class DeadlockService {
      *
      * @param timeout The amount of time in ms for an arbitrary job to run in the threads
      */
-    public void lockThreads(int timeout) {
+    public void deadlockThreads(int timeout) {
         String resource1 = "Alice";
         String resource2 = "Bob";
 

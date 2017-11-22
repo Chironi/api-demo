@@ -18,7 +18,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 /**
- *
+ * REST Controller for demoing various services
  */
 @RestController
 public class DemoController {
@@ -36,8 +36,9 @@ public class DemoController {
     ExternalPostsService externalPostsService;
 
     /**
+     * Endpoint for Hello World!
      *
-     * @return
+     * @return String Hello World!
      */
     @RequestMapping(path = "/hello-world", method = GET)
     public String hello() {
@@ -45,9 +46,10 @@ public class DemoController {
     }
 
     /**
+     * Endpoint to get unique words and their counts
      *
-     * @param paragraphJson
-     * @return
+     * @param paragraphJson JSON object contain the paragraph to parse
+     * @return ResponseEntity containing List of UniqueWordResource
      */
     @RequestMapping(path = "/unique-words", method = POST)
     public ResponseEntity findUniqueWordsAndCounts(@RequestBody Map<String, String> paragraphJson) {
@@ -60,9 +62,10 @@ public class DemoController {
     }
 
     /**
+     * Endpoint to retrieve a list of Fibonacci numbers
      *
-     * @param n
-     * @return
+     * @param n The number of Fibonacci numbers to retrieve
+     * @return List of Fibonacci numbers
      */
     @RequestMapping(path = "/fibonacci-numbers", method = POST)
     public List<BigInteger> findFibonacciNumbers(@RequestParam(value="N") Integer n) {
@@ -70,14 +73,20 @@ public class DemoController {
     }
 
     /**
+     * Endpoint to deadlock threads
      *
-     * @param timeout
+     * @param timeout Time in ms for arbitrary job
      */
     @RequestMapping(path = "/deadlock-threads", method = POST)
     public void deadlockThreads(@RequestParam(value="timeout") Integer timeout) {
-        deadlockService.lockThreads(timeout);
+        deadlockService.deadlockThreads(timeout);
     }
 
+    /**
+     * Endpoint for checking if threads are deadlocked
+     *
+     * @return Returns message with deadlocked thread ids
+     */
     @RequestMapping(path = "/detect-deadlock-threads", method = GET)
     public String detectDeadlockThreads() {
         long[] deadlockedThreadIds = deadlockService.getDeadlockedThreadIds();
@@ -88,11 +97,22 @@ public class DemoController {
         }
     }
 
+    /**
+     * Endpoint get Posts from a call to an external service
+     *
+     * @return ResponseEntity containing Posts
+     */
     @RequestMapping(path = "/external-posts-service", method = GET)
     public ResponseEntity getPostsFromExternalService() {
         return externalPostsService.getPosts();
     }
 
+    /**
+     * Endpoint to get Post by id from a call to an external service
+     *
+     * @param id Id of the Post to get
+     * @return ResponseEntity containing the Post
+     */
     @RequestMapping(path = "/external-posts-service/{id}", method = GET)
     public ResponseEntity getPostFromExternalService(@PathVariable String id) {
         return externalPostsService.getPostById(id);
