@@ -1,6 +1,5 @@
 package com.wczaja.apidemo.controllers;
 
-import com.wczaja.apidemo.resources.UniqueWordResource;
 import com.wczaja.apidemo.services.DeadlockService;
 import com.wczaja.apidemo.services.ExternalPostsService;
 import com.wczaja.apidemo.services.FibonacciService;
@@ -8,15 +7,12 @@ import com.wczaja.apidemo.services.UniqueWordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.bind.annotation.*;
 
 import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
@@ -50,12 +46,17 @@ public class DemoController {
 
     /**
      *
-     * @param paragraph
+     * @param paragraphJson
      * @return
      */
     @RequestMapping(path = "/unique-words", method = POST)
-    public ResponseEntity<List<UniqueWordResource>> findUniqueWordsAndCounts(@RequestParam(value="paragraph") String paragraph) {
-        return new ResponseEntity<>(uniqueWordService.getUniqueWordsFromParagraph(paragraph), HttpStatus.OK);
+    public ResponseEntity findUniqueWordsAndCounts(@RequestBody Map<String, String> paragraphJson) {
+        String paragraph = paragraphJson.get("paragraph");
+        if (null != paragraph) {
+            return new ResponseEntity<>(uniqueWordService.getUniqueWordsFromParagraph(paragraph), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("JSON must contain paragraph", HttpStatus.BAD_REQUEST);
+        }
     }
 
     /**

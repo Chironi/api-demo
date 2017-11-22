@@ -32,6 +32,8 @@ public class UniqueWordService {
         String[] words = paragraph.split("[\\W]+");
 
         for (String word : words) {
+            // Lower case words so they can eventually be sorted alphabetically
+            word = word.toLowerCase();
             if (uniqueWordMap.containsKey(word)) {
                 // If uniqueWordMap already contains word, just increment the count
                 uniqueWordMap.put(word, uniqueWordMap.get(word) + 1);
