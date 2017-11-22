@@ -16,6 +16,9 @@ import java.util.Optional;
 
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 
+/**
+ * REST Controller for Hub HATEAOS resource
+ */
 @RestController
 @RequestMapping(value = "/api/hub")
 public class HubController {
@@ -23,6 +26,12 @@ public class HubController {
     @Autowired
     HubService hubService;
 
+    /**
+     * Endpoint to get Hub resource by Id
+     *
+     * @param id Id of the Hub to retrieve
+     * @return ResponseEntity containing the Hub resource
+     */
     @RequestMapping(value = "{id}", method = GET)
     public ResponseEntity getHub(@PathVariable Long id) {
         Optional<HubEntity> hubEntity = hubService.getHubById(id);
@@ -35,6 +44,11 @@ public class HubController {
         }
     }
 
+    /**
+     * Endpoint to get list of Hub resources
+     *
+     * @return ResponseEntity containing list of all Hub resources
+     */
     @RequestMapping(method = GET)
     public ResponseEntity<List<HubResource>> getHubs() {
         HubResourceAssembler hubResourceAssembler = new HubResourceAssembler();
@@ -43,6 +57,13 @@ public class HubController {
         return new ResponseEntity<>(hubResources, HttpStatus.OK);
     }
 
+    /**
+     * Endpoint to create a new HubEntity from the provided HubResource
+     *
+     * @param hubResource The HubResource to create a HubEntity with
+     * @param ucBuilder UriComponentsBuilder used for building the location header path
+     * @return ResponseEntity containing header with location of newly created HubResource
+     */
     @RequestMapping(method = POST)
     public ResponseEntity createHub(@RequestBody HubResource hubResource, UriComponentsBuilder ucBuilder) {
         HubEntity hubEntity = hubService.saveHub(hubResource);
@@ -51,6 +72,13 @@ public class HubController {
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
 
+    /**
+     * Endpoint to update an existing HubEntity from the provided HubResource
+     *
+     * @param id Id of the existing HubEntity to update
+     * @param hubResource HubResource containing updated attributes
+     * @return ResponseEntity containing the updated HubResource
+     */
     @RequestMapping(value = "{id}", method = PUT)
     public ResponseEntity updateHub(@PathVariable Long id, @RequestBody HubResource hubResource) {
         Optional<HubEntity> hubEntity = hubService.updateHub(id, hubResource);
@@ -63,6 +91,12 @@ public class HubController {
         }
     }
 
+    /**
+     * Endpoint to delete an existing HubEntity
+     *
+     * @param id Id of the HubEntity to delete
+     * @return ResponseEntity containing the HttpStatus
+     */
     @RequestMapping(value = "{id}", method = DELETE)
     public ResponseEntity deleteHub(@PathVariable Long id) {
         Optional<HubEntity> hubEntity = hubService.getHubById(id);
