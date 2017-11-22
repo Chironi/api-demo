@@ -50,7 +50,7 @@ public class NodeController {
      * @return ResponseEntity containing list of all Node resources
      */
     @RequestMapping(method = GET)
-    public ResponseEntity<List<NodeResource>> getNodes() {
+    public ResponseEntity getNodes() {
         NodeResourceAssembler nodeResourceAssembler = new NodeResourceAssembler();
         List nodeEntities = nodeService.getAllNodes();
         List<NodeResource> nodeResources = nodeResourceAssembler.toResources(nodeEntities);

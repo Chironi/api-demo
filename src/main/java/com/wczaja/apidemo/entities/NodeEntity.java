@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 @Entity
 @Table(name="NODE_DEVICE")
-public class NodeEntity extends Device implements Serializable {
+public class NodeEntity extends BaseDeviceEntity implements Serializable {
     private String type;
     @Column(name="node_group")
     private String group;

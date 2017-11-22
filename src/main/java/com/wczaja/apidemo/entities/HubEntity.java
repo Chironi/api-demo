@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 @Entity
 @Table(name="HUB_DEVICE")
-public class HubEntity extends Device implements Serializable {
+public class HubEntity extends BaseDeviceEntity implements Serializable {
     private String owner;
     private Integer maxPorts;
 

@@ -50,7 +50,7 @@ public class HubController {
      * @return ResponseEntity containing list of all Hub resources
      */
     @RequestMapping(method = GET)
-    public ResponseEntity<List<HubResource>> getHubs() {
+    public ResponseEntity getHubs() {
         HubResourceAssembler hubResourceAssembler = new HubResourceAssembler();
         List hubEntities = hubService.getAllHubs();
         List<HubResource> hubResources =  hubResourceAssembler.toResources(hubEntities);
