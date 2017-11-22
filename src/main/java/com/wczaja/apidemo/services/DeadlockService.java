@@ -8,21 +8,19 @@ import java.lang.management.ManagementFactory;
 import java.lang.management.ThreadMXBean;
 
 /**
- *
+ * Service which deadlocks threads and can get list of deadlock thread ids
  */
 @Service
 public class DeadlockService {
 
     private static final Logger log = LoggerFactory.getLogger(DeadlockService.class);
 
-    public long[] getDeadlockedThreadIds() {
-        ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean();
-        return threadMXBean.findDeadlockedThreads();
-    }
-
     /**
+     * Creates two threads and deadlocks them on synchronized resources
+     * The deadlock is caused by a cyclic dependency on shared resources. Each thread is waiting for the other to release
+     * the resource it needs.
      *
-     * @param timeout
+     * @param timeout The amount of time in ms for an arbitrary job to run in the threads
      */
     public void lockThreads(int timeout) {
         String resource1 = "Alice";
@@ -41,10 +39,21 @@ public class DeadlockService {
     }
 
     /**
+     * Detects deadlocked threads and returns a list of deadlocked thread ids
      *
-     * @param resource1
-     * @param resource2
-     * @param timeout
+     * @return Array of deadlocked thread ids
+     */
+    public long[] getDeadlockedThreadIds() {
+        ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean();
+        return threadMXBean.findDeadlockedThreads();
+    }
+
+    /**
+     * Locks resources, using embedded synchronized blocks, running an arbitrary job for a given timeout
+     *
+     * @param resource1 The first resource to lock
+     * @param resource2 The second resource to lock
+     * @param timeout time in ms for an arbitrary job to run
      */
     private void lockResources(Object resource1, Object resource2, int timeout) {
         String threadName = Thread.currentThread().getName();
@@ -65,6 +74,11 @@ public class DeadlockService {
         log.info(resource1 + " is now free");
     }
 
+    /**
+     * An arbitrary job for the threads to run
+     *
+     * @param timeout Time in ms for the job to run
+     */
     private void runJob(int timeout) {
         try {
             log.info("Job is running for " +  timeout + "ms");

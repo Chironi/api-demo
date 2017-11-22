@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- *
+ * Service which calculates n Fibonacci numbers using recursion + memoization
  */
 @Service
 public class FibonacciService {
@@ -16,9 +16,10 @@ public class FibonacciService {
     private static HashMap<Integer, BigInteger> memoizedValues = new HashMap<>();
 
     /**
+     *  Populates a List of BigIntegers with Fibonacci numbers by calling the calculate method numberOfFibonacci times
      *
-     * @param numberOfFibonacci
-     * @return
+     * @param numberOfFibonacci The number of Fibonacci numbers to add
+     * @return List of Fibonacci numbers
      */
     public List<BigInteger> getFibonacciNumbers(int numberOfFibonacci) {
         List<BigInteger> fibonacciNumbers = new ArrayList<>();
@@ -33,9 +34,10 @@ public class FibonacciService {
     }
 
     /**
+     * Calculates Fibonacci numbers using recursion method, and uses memoization for efficiency
      *
-     * @param n
-     * @return
+     * @param n Integer for which Fibonacci to calculate for
+     * @return BigInteger calculated Fibonacci number
      */
     private BigInteger getFibonacciNumberWithRecursiveMemoization(Integer n) {
         if (n == 0 || n == 1) {

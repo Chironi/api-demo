@@ -11,15 +11,16 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- *
+ * Service which parses an input paragraph, counting instances of words, and populating a List of UniqueWordResource Objects
  */
 @Service
 public class UniqueWordService {
 
     /**
+     * Parses input paragraph using regex to split into words, then populates a HashMap of key: unique word, and value: count of instances
      *
-     * @param paragraph
-     * @return
+     * @param paragraph The input paragraph to be parses
+     * @return List of UniqueWordResource objects
      */
     public List<UniqueWordResource> getUniqueWordsFromParagraph(String paragraph) {
         if (StringUtils.isEmpty(paragraph)) {

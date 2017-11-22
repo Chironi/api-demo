@@ -11,6 +11,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Service of CRUD methods for Hubs
+ */
 @Service
 public class HubService {
 
@@ -19,14 +22,31 @@ public class HubService {
 
     private static final Logger log = LoggerFactory.getLogger(HubService.class);
 
+    /**
+     * Gets a List of all HubEntities from the HubRepository
+     *
+     * @return List of all HubEntities
+     */
     public List<HubEntity> getAllHubs() {
         return (List<HubEntity>) hubRepository.findAll();
     }
 
+    /**
+     * Gets a HubEntity by id from the HubRepository
+     *
+     * @param id Id of the HubEntity to retrieve
+     * @return Optional of the retrieved HubEntity
+     */
     public Optional<HubEntity> getHubById(Long id) {
         return Optional.ofNullable(hubRepository.findById(id));
     }
 
+    /**
+     * Creates a new HubEntity provided a HubResource
+     *
+     * @param hubResource A HubResource containing the parameters for the new HubEntity
+     * @return The newly created HubEntity
+     */
     public HubEntity saveHub(HubResource hubResource) {
         HubEntity hubEntity = new HubEntity();
         hubEntity.setMaxPorts(hubResource.getMaxPorts());
@@ -41,6 +61,13 @@ public class HubService {
         return hubRepository.save(hubEntity);
     }
 
+    /**
+     * Updates an existing HubEntity with the parameters of the input HubResource
+     *
+     * @param id Id of the existing HubEntity to update
+     * @param hubResource HubResource containing updates parameters
+     * @return Optional of the updates HubEntity, or empty Optional if no existing HubEntity for input id
+     */
     public Optional<HubEntity> updateHub(Long id, HubResource hubResource) {
         Optional<HubEntity> hubEntityOptional = getHubById(id);
         if (hubEntityOptional.isPresent()) {
@@ -62,6 +89,11 @@ public class HubService {
         }
     }
 
+    /**
+     * Deletes the input HubEntity
+     *
+     * @param hubEntity The HubEntity to delete
+     */
     public void deleteHub(HubEntity hubEntity) {
         log.info("Deleting Hub with id " + hubEntity.getId());
         hubRepository.delete(hubEntity);
