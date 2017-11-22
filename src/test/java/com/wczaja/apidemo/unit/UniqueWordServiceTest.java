@@ -26,11 +26,11 @@ public class UniqueWordServiceTest {
     public void testGetUniqueWordsFromParagraph() throws JsonProcessingException {
         String paragraph = "One Two Three Four Five Five Three";
         List<UniqueWordResource> expectedUniqueWordResources = new ArrayList<>();
-        expectedUniqueWordResources.add(new UniqueWordResource("Five", 2));
-        expectedUniqueWordResources.add(new UniqueWordResource("Four", 1));
-        expectedUniqueWordResources.add(new UniqueWordResource("One", 1));
-        expectedUniqueWordResources.add(new UniqueWordResource("Three", 2));
-        expectedUniqueWordResources.add(new UniqueWordResource("Two", 1));
+        expectedUniqueWordResources.add(new UniqueWordResource("five", 2));
+        expectedUniqueWordResources.add(new UniqueWordResource("four", 1));
+        expectedUniqueWordResources.add(new UniqueWordResource("one", 1));
+        expectedUniqueWordResources.add(new UniqueWordResource("three", 2));
+        expectedUniqueWordResources.add(new UniqueWordResource("two", 1));
 
         List<UniqueWordResource> uniqueWordResources = uniqueWordService.getUniqueWordsFromParagraph(paragraph);
 
