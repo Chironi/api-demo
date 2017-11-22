@@ -2,7 +2,9 @@ package com.wczaja.apidemo.services;
 
 import com.wczaja.apidemo.resources.UniqueWordResource;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +22,10 @@ public class UniqueWordService {
      * @return
      */
     public List<UniqueWordResource> getUniqueWordsFromParagraph(String paragraph) {
+        if (StringUtils.isEmpty(paragraph)) {
+            return new ArrayList<>();
+        }
+
         Map<String, Integer> uniqueWordMap = new HashMap<>();
 
         // Splits paragraph into String Array using regex to split on all non-letter chars

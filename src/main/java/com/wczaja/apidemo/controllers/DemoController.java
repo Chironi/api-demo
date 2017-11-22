@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import java.math.BigInteger;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
@@ -76,13 +77,23 @@ public class DemoController {
         deadlockService.lockThreads(timeout);
     }
 
+    @RequestMapping(path = "/detect-deadlock-threads", method = GET)
+    public String detectDeadlockThreads() {
+        long[] deadlockedThreadIds = deadlockService.getDeadlockedThreadIds();
+        if (deadlockedThreadIds != null) {
+            return "The following thread ids are deadlocked: " + Arrays.toString(deadlockedThreadIds);
+        } else {
+            return "No threads are deadlocked";
+        }
+    }
+
     @RequestMapping(path = "/external-posts-service", method = GET)
-    public ResponseEntity<String> getPostsFromExternalService() {
+    public ResponseEntity getPostsFromExternalService() {
         return externalPostsService.getPosts();
     }
 
     @RequestMapping(path = "/external-posts-service/{id}", method = GET)
-    public ResponseEntity<String> getPostFromExternalService(@PathVariable String id) {
+    public ResponseEntity getPostFromExternalService(@PathVariable String id) {
         return externalPostsService.getPostById(id);
     }
 
