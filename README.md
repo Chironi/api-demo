@@ -145,55 +145,65 @@ curl --request GET \
 ```
 
 ### HATEOAS REST API for Hub and Node Resources
+I've created a set of HATEOAS REST CRUD endpoints to serve Hub and Node device resources.
+A Hub is a home automation device which networks together various Node home automation 
+devices. I use the HATEOAS (https://spring.io/understanding/HATEOAS) pattern to exhibit the
+representation of related resources. The links object present in the response JSON provides
+a convenient way to discover the related resources.
 
-Hub
+*Note: The Hub and Node tables are pre-populated with example data on application startup.*
+
+#### Hub API
+Get all Hub resources:
 ```
 curl --request GET \
-  --url http://localhost:8080/api/nodes \
+  --url http://localhost:8080/api/hubs \
   --header 'cache-control: no-cache'
 ```
-
+Get single Hub resource by path parameter {id}:
 ```
 curl --request GET \
-  --url http://localhost:8080/api/nodes/{id} \
+  --url http://localhost:8080/api/hubs/{id} \
   --header 'cache-control: no-cache'
 ```
-
+Create new Hub entity with the provided Hub resource data:
 ```
 curl --request POST \
-  --url http://localhost:8080/api/nodes \
+  --url http://localhost:8080/api/hubs \
   --header 'cache-control: no-cache' \
   --header 'content-type: application/json' \
   --data '{"name": "", "label": "", "location": "", "zigbeeId": "", "networkId": "", "productId": "", "owner": "", "maxPorts": 32}'
 ```
-
+Update existing Hub entity using attributes of the provided Hub resource:
 ```
 curl --request PUT \
-  --url http://localhost:8080/api/nodes/{id} \
+  --url http://localhost:8080/api/hubs/{id} \
   --header 'cache-control: no-cache' \
   --header 'content-type: application/json' \
   --data '{"name": "", "label": "", "location": "", "zigbeeId": "", "networkId": "", "productId": "", "owner": "", "maxPorts": 32}'
 ```
-
+Delete an existing Hub entity from the provided path parameter {id}
 ```
 curl --request DELETE \
   --url http://localhost:8080/api/nodes/{id} \
   --header 'cache-control: no-cache' \
 ```
 
-Node
+#### Node API
+Get all Node resources:
 ```
 curl --request GET \
   --url http://localhost:8080/api/nodes \
   --header 'cache-control: no-cache'
 ```
-
+Get single Node resource by path parameter {id}:
 ```
 curl --request GET \
   --url http://localhost:8080/api/nodes/{id} \
   --header 'cache-control: no-cache'
 ```
-
+Create new Node entity with the provided Hub resource data. Note you can a provide hubId to
+establish a relationship to that hub:
 ```
 curl --request POST \
   --url http://localhost:8080/api/nodes \
@@ -201,7 +211,7 @@ curl --request POST \
   --header 'content-type: application/json' \
   --data '{"name": "", "label": "", "location": "", "zigbeeId": "", "networkId": "", "productId": "", "type": "", "group": "", "hubId": 1}'
 ```
-
+Update existing Node entity using attributes of the provided Node resource:
 ```
 curl --request PUT \
   --url http://localhost:8080/api/nodes/{id} \
@@ -209,7 +219,7 @@ curl --request PUT \
   --header 'content-type: application/json' \
   --data '{"name": "", "label": "", "location": "", "zigbeeId": "", "networkId": "", "productId": "", "type": "", "group": "", "hubId": 1}'
 ```
-
+Delete an existing Node entity from the provided path parameter {id}
 ```
 curl --request DELETE \
   --url http://localhost:8080/api/nodes/{id} \
