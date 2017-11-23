@@ -28,7 +28,7 @@ $ mvn package
 [INFO] --- maven-jar-plugin:2.4:jar (default-jar) @ api-demo ---
 [INFO] Building jar: /Users/developer/example/spring-boot-example/target/api-demo-0.0.1-SNAPSHOT.jar
 [INFO]
-[INFO] --- spring-boot-maven-plugin:1.5.8.RELEASE:repackage (default) @ myproject ---
+[INFO] --- spring-boot-maven-plugin:1.5.8.RELEASE:repackage (default) @ api-demo ---
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
@@ -89,12 +89,15 @@ Tests run: 19, Failures: 0, Errors: 0, Skipped: 0
 
 ### Demo Services API
 
+Just a simple Hello World endpoint.
 ```
 curl --request GET \
   --url http://localhost:8080/hello-world \
   --header 'cache-control: no-cache'
 ```
-
+Endpoint that accepts a JSON object containing a paragraph of text and returns a JSON array
+of objects which represent unique words in the paragraph and the count of occurrences. The
+array is sorted alphabetically. 
 ```
 curl --request POST \
   --url http://localhost:8080/unique-words \
@@ -102,7 +105,8 @@ curl --request POST \
   --header 'content-type: application/json' \
   --data '{\n	"paragraph" : "The paragraph to parse"\n}'
 ```
-
+Endpoint that returns a JSON array of the first N Fibonacci numbers. I use the a recursive
+algorithm that uses memoization for efficiency. The Big-O complexity is O(n).
 ```
 curl --request POST \
   --url http://localhost:8080/fibonacci-numbers \
@@ -110,7 +114,8 @@ curl --request POST \
   --header 'content-type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW' \
   --form N=100
 ```
-
+Endpoint that creates two deadlocked threads. The threads run an arbitrary job which runs for
+the input timeout in ms.
 ```
 curl --request POST \
   --url http://localhost:8080/deadlock-threads \
@@ -118,22 +123,21 @@ curl --request POST \
   --header 'content-type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW' \
   --form timeout=1000
 ```
-
-
+Endpoint which detects the deadlocked threads and returns a list of the deadlocked thread ids.
 ```
 curl --request GET \
   --url http://localhost:8080/detect-deadlock-threads \
   --header 'cache-control: no-cache'
 ```
-
-
+Endpoint which calls an external web service using the Spring RestTemplate and returns a
+list of Post objects from that external service.
 ```
 curl --request GET \
   --url http://localhost:8080/external-posts-service \
   --header 'cache-control: no-cache'
 ```
-
-
+Endpoint which calls an external web service using the Spring RestTemplate and returns a
+single Post object for the provided id path parameter.
 ```
 curl --request GET \
   --url http://localhost:8080/external-posts-service/{id} \
