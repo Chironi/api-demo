@@ -86,7 +86,8 @@ Tests run: 19, Failures: 0, Errors: 0, Skipped: 0
 ```
 
 ## REST API Endpoints
-
+I used Postman for testing calls to these endpoints. The following are cURL commands that I
+exported from Postman, and descriptions for what the endpoints do.
 ### Demo Services API
 
 Just a simple Hello World endpoint.
