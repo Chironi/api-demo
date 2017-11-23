@@ -20,7 +20,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.*;
  * REST Controller for Hub HATEAOS resource
  */
 @RestController
-@RequestMapping(value = "/api/hub")
+@RequestMapping(value = "/api/hubs")
 public class HubController {
 
     @Autowired
@@ -68,7 +68,7 @@ public class HubController {
     public ResponseEntity createHub(@RequestBody HubResource hubResource, UriComponentsBuilder ucBuilder) {
         HubEntity hubEntity = hubService.saveHub(hubResource);
         HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(ucBuilder.path("/api/hub/{id}").buildAndExpand(hubEntity.getId()).toUri());
+        headers.setLocation(ucBuilder.path("/api/hubs/{id}").buildAndExpand(hubEntity.getId()).toUri());
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
 

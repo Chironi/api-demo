@@ -20,7 +20,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.*;
  * REST Controller for Node HATEAOS resource
  */
 @RestController
-@RequestMapping(value = "/api/node")
+@RequestMapping(value = "/api/nodes")
 public class NodeController {
 
     @Autowired
@@ -68,7 +68,7 @@ public class NodeController {
     public ResponseEntity createNode(@RequestBody NodeResource nodeResource, UriComponentsBuilder ucBuilder) {
         NodeEntity nodeEntity = nodeService.saveNode(nodeResource);
         HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(ucBuilder.path("/api/node/{id}").buildAndExpand(nodeEntity.getId()).toUri());
+        headers.setLocation(ucBuilder.path("/api/nodes/{id}").buildAndExpand(nodeEntity.getId()).toUri());
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
 
