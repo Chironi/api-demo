@@ -104,7 +104,7 @@ curl --request POST \
   --url http://localhost:8080/unique-words \
   --header 'cache-control: no-cache' \
   --header 'content-type: application/json' \
-  --data '{\n	"paragraph" : "The paragraph to parse"\n}'
+  --data '{"paragraph" : "The paragraph to parse"}'
 ```
 Endpoint that returns a JSON array of the first N Fibonacci numbers. I use the a recursive
 algorithm that uses memoization for efficiency. The Big-O complexity is O(n).
@@ -116,7 +116,8 @@ curl --request POST \
   --form N=100
 ```
 Endpoint that creates two deadlocked threads. The threads run an arbitrary job which runs for
-the input timeout in ms.
+the input timeout in ms. Please note the logging output for this occurrence. You can use the
+other endpoint below for verifying the threads are indeed deadlocked.
 ```
 curl --request POST \
   --url http://localhost:8080/deadlock-threads \
