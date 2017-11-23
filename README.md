@@ -149,7 +149,10 @@ I've created a set of HATEOAS REST CRUD endpoints to serve Hub and Node device r
 A Hub is a home automation device which networks together various Node home automation 
 devices. I use the HATEOAS (https://spring.io/understanding/HATEOAS) pattern to exhibit the
 representation of related resources. The links object present in the response JSON provides
-a convenient way to discover the related resources.
+a convenient way to discover the related resources. 
+
+I use the HyperSQL as the in-process
+database.
 
 *Note: The Hub and Node tables are pre-populated with example data on application startup.*
 
